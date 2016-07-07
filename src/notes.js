@@ -1,6 +1,7 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const sharp11 = require('sharp11')
+const sharp11audio = require('sharp11-web-audio');
 const tryInversion = require('./try-inversion')
 
 window.sharp11 = sharp11
@@ -43,20 +44,23 @@ const Notes = React.createClass({
 	      }).map(tryInversion).map((inversion) => inversion.symbol)
 	  }
 
+	  var that = this
 	  scales = scales.map(function (d, i) {
 		  var key = 'note-scale-' + i
+		  var playScale = that.__playScale.bind(that, d)
 		  return (
 	        <div key={key} data-id='note-scale'>
-              {d.fullName}
+              <a href='#' onClick={playScale}>{d.fullName}</a>
             </div>
           )
 	  })
 
 	  chords = chords.sort((a, b) => a.reasonable >= b.reasonable).map(function (d, i) {
 		  var key = 'note-chord-' + i
+		  var playChord = that.__playChord.bind(that, sharp11.chord.create(d))
 		  return (
 	        <div key={key} data-id='note-chord'>
-              {d}
+	        	<a href='#' onClick={playChord}>{d}</a>
             </div>
           )
 	  })
@@ -89,6 +93,18 @@ const Notes = React.createClass({
         });
 
         this.setState({ noteStates: state });
+    },
+    __playScale: function(scale) {
+    	console.log('Playing scale %j', scale)
+    	sharp11audio.init(function (err, instrument) {
+    		instrument.play(scale)
+    	})
+    },
+    __playChord: function(chord) {
+    	console.log('Playing chord %j', chord)
+    	sharp11audio.init(function (err, instrument) {
+    		instrument.play(chord)
+    	})
     }
 })
 
