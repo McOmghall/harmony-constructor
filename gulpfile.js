@@ -31,7 +31,7 @@ gulp.task('clean', function () {
   })
 })
 gulp.task('copy', function copy () {
-  return gulp.src([sourceDir + 'index.html', sourceDir + 'background.js', sourceDir + 'manifest.json', sourceDir + 'imgs/**'], {base: sourceDir})
+  return gulp.src([sourceDir + 'index.html', sourceDir + 'main.css', sourceDir + 'imgs/**'], {base: sourceDir})
     .pipe(print())
     .pipe(gulp.dest(distroDir))
 })

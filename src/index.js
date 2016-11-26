@@ -1,6 +1,7 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const Notes = require('./notes')
+const Synth = require('./synth')
 
 const Index = React.createClass({
   getInitialState: function () { return null },
@@ -8,6 +9,7 @@ const Index = React.createClass({
     return (
       <div className='index'>
         <Notes />
+        <Synth />
       </div>
     )
   }
